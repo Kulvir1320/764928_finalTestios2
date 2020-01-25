@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var desTextView: UITextView!
     @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
+    
     var data: [Product]?
     var viewContext : NSManagedObjectContext?
      var products = [Product]()
@@ -42,7 +43,7 @@ class ViewController: UIViewController {
         priceTextField.text = "\(product1.price)"
         nameTextField.text = "\(product1.name)"
         clearcoreData()
-//        loadCoreData()
+        loadCoreData()
          NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: UIApplication.willResignActiveNotification, object: nil)
     }
     @objc func saveData() {

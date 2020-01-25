@@ -83,18 +83,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="iBf-iE-wRP">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="i1n-x1-51n">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uPi-Uw-MJn">
-                                <rect key="frame" x="279" y="11" width="80" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plus.rectangle.fill.on.rectangle.fill" catalog="system"/>
-                            </button>
-                            <connections>
-                                <action selector="savebutton:" destination="qwJ-Th-Lid" id="FSb-vM-9rm"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="iBf-iE-wRP"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="desTextView" destination="y0h-x2-3FD" id="vrY-CV-FN5"/>
@@ -166,14 +155,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="sD3-HN-BWs">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="productCell" id="xsa-Qo-nPc">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xsa-Qo-nPc" id="exx-TM-2p4">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -190,9 +174,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Products" id="Soe-CH-o46"/>
-                    <connections>
-                        <outlet property="searchBar" destination="U0M-xb-hwM" id="Bfl-HA-jI9"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q4e-Ni-RLD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -221,6 +202,5 @@
     </scenes>
     <resources>
         <image name="list.dash" catalog="system" width="64" height="42"/>
-        <image name="plus.rectangle.fill.on.rectangle.fill" catalog="system" width="64" height="48"/>
     </resources>
 </document>

@@ -9,16 +9,14 @@
 import UIKit
 import CoreData
 
-class ProductTableViewController: UITableViewController {
-    func updateSearchResults(for searchController: UISearchController) {
-        return 
-    }
+class ProductTableViewController: UITableViewController, UISearchResultsUpdating {
+   
     
     
     
     var context: NSManagedObjectContext?
     
-    @IBOutlet var searchBar: UITableView!
+    
     let searchController = UISearchController(searchResultsController: nil)
     var filterProducts = [Product]()
      var  productsData = [Product]()
@@ -30,13 +28,23 @@ class ProductTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
+        searchController.searchResultsUpdater = self
+    searchController.obscuresBackgroundDuringPresentation = false
+    definesPresentationContext = true
+    navigationItem.searchController = searchController
         
     }
-//    func updateSearchResults(for searchController: UISearchController) {
-//        filternamesOfProduct(for: searchController.searchBar.text  )
-//    }
+    func updateSearchResults(for searchController: UISearchController) {
+        let search = searchController.searchBar
+        filternamesOfProduct(search.text!)
+    }
 
+    func filternamesOfProduct(_ searchText: String) {
+        filterProducts = Product.product.filter({ (pro: Product) -> Bool in
+            return pro.name.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -46,10 +54,12 @@ class ProductTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if searchController.isActive && searchController.searchBar.text != ""{
+        if searchController.isActive {
             return filterProducts.count
+        }else{
+            return Product.product.count ?? 0
+            
         }
-        return Product.product.count ?? 0
 //        return productsData.count ?? 0
     }
 
@@ -57,26 +67,26 @@ class ProductTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath)
         let pro: Product
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchController.isActive  {
             pro = filterProducts[indexPath.row]
         }else {
             pro = Product.product[indexPath.row]
         }
-        let p = Product.product[indexPath.row]
+//        let p = Product.product[indexPath.row]
 //        cell.textLabel?.text = Product.product[indexPath.row].name
-        cell.textLabel?.text = p.name
+        cell.textLabel?.text = pro.name
         return cell
         
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
     /*
     // Override to support editing the table view.
@@ -115,9 +125,14 @@ class ProductTableViewController: UITableViewController {
         if let destination = segue.destination as? descViewController{
             if let cell = sender as? UITableViewCell{
                 let index = tableView.indexPath(for: cell)?.row
-                let pd :Product
-                pd = Product.product[index!]
-                destination.choosenproduct = pd
+                let p :Product
+                if searchController.isActive{
+                    p = filterProducts[index!]
+                }else {
+                    p = Product.product[index!]
+                    
+                }
+                destination.choosenproduct = p
                 destination.selectedproduct = true
             }
         }
