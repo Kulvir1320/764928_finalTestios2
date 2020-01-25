@@ -9,7 +9,11 @@
 import UIKit
 import CoreData
 
-class ProductTableViewController: UITableViewController,UISearchResultsUpdating {
+class ProductTableViewController: UITableViewController {
+    func updateSearchResults(for searchController: UISearchController) {
+        return 
+    }
+    
     
     
        
@@ -20,8 +24,7 @@ class ProductTableViewController: UITableViewController,UISearchResultsUpdating 
      var  productsData = [Product]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -29,9 +32,9 @@ class ProductTableViewController: UITableViewController,UISearchResultsUpdating 
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
     }
-    func updateSearchResults(for searchController: UISearchController) {
-        <#code#>
-    }
+//    func updateSearchResults(for searchController: UISearchController) {
+//        filternamesOfProduct(for: searchController.searchBar.text  )
+//    }
 
     // MARK: - Table view data source
 
@@ -61,11 +64,7 @@ class ProductTableViewController: UITableViewController,UISearchResultsUpdating 
         return cell
         
     }
-    func filternamesOfProduct(for searchText: UISearchBar){
-        filterProducts = Product.product.filter({ (Product) -> Bool in
-            
-        })
-    }
+    
 
     /*
     // Override to support conditional editing of the table view.
