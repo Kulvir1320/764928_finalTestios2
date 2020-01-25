@@ -16,7 +16,7 @@ class ProductTableViewController: UITableViewController {
     
     
     
-       
+    var context: NSManagedObjectContext?
     
     @IBOutlet var searchBar: UITableView!
     let searchController = UISearchController(searchResultsController: nil)
@@ -30,7 +30,7 @@ class ProductTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        loadCoreData()
+        
         
     }
 //    func updateSearchResults(for searchController: UISearchController) {
@@ -62,9 +62,9 @@ class ProductTableViewController: UITableViewController {
         }else {
             pro = Product.product[indexPath.row]
         }
-        let p = productsData[indexPath.row]
-        cell.textLabel?.text = Product.product[indexPath.row].name
-//        cell.textLabel?.text = p.name
+        let p = Product.product[indexPath.row]
+//        cell.textLabel?.text = Product.product[indexPath.row].name
+        cell.textLabel?.text = p.name
         return cell
         
     }
@@ -105,42 +105,27 @@ class ProductTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-    }
-    */
-
-    func loadCoreData() {
-     
-        // create an instance of app delegate
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // second step is context
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ProductEntity")
-        
-        do {
-            let results = try managedContext.fetch(fetchRequest)
-            if results is [NSManagedObject] {
-                for result in results as! [NSManagedObject] {
-                    let name = result.value(forKey: "name") as! String
-                    let id = result.value(forKey: "id") as! Int
-                    let desc = result.value(forKey: "desc") as! String
-                    let price = result.value(forKey: "price") as! Int
-                    
-                  productsData.append(Product(id: id, name: name, description: desc, price: Double(price)))
-                }
+        if let destination = segue.destination as? descViewController{
+            if let cell = sender as? UITableViewCell{
+                let index = tableView.indexPath(for: cell)?.row
+                let pd :Product
+                pd = Product.product[index!]
+                destination.choosenproduct = pd
+                destination.selectedproduct = true
             }
-        } catch {
-            print(error)
         }
-        
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+
+   
     
 }

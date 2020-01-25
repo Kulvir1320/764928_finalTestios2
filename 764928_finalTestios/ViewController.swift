@@ -15,8 +15,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var desTextView: UITextView!
     @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
-    
-     var products: [Product]?
+    var data: [Product]?
+    var viewContext : NSManagedObjectContext?
+     var products = [Product]()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -32,7 +33,7 @@ class ViewController: UIViewController {
                 let product10 = Product(id: 10, name: "shoes", description: "clor black", price: 150)
                
                products = [product1, product2,product3,product4,product5,product6,product7,product8,product9,product10]
-        for item in products! {
+        for item in products {
             Product.product.append(item)
         }
        
@@ -40,13 +41,16 @@ class ViewController: UIViewController {
         desTextView.text = "\(product1.description)"
         priceTextField.text = "\(product1.price)"
         nameTextField.text = "\(product1.name)"
-        
+        clearcoreData()
+//        loadCoreData()
          NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: UIApplication.willResignActiveNotification, object: nil)
     }
     @objc func saveData() {
+        clearcoreData()
         let appdelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appdelegate.persistentContainer.viewContext
-        for item in products! {
+        viewContext = context
+        for item in Product.product {
             let entity = NSEntityDescription.insertNewObject(forEntityName: "ProductEntity", into: context)
             entity.setValue(item.name, forKey: "name")
             entity.setValue(item.id, forKey: "id")
@@ -60,7 +64,54 @@ class ViewController: UIViewController {
             
         }
     }
-
+    func loadCoreData() {
+      
+         // create an instance of app delegate
+         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+         // second step is context
+         let managedContext = appDelegate.persistentContainer.viewContext
+         
+         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ProductEntity")
+         
+         do {
+             let results = try managedContext.fetch(fetchRequest)
+             if results is [NSManagedObject] {
+                 for result in results as! [NSManagedObject] {
+                     let name = result.value(forKey: "name") as! String
+                     let id = result.value(forKey: "id") as! Int
+                     let desc = result.value(forKey: "desc") as! String
+                     let price = result.value(forKey: "price") as! Int
+                     
+                    Product.product.append(Product(id: id, name: name, description: desc, price: Double(price)))
+                 }
+             }
+         } catch {
+             print(error)
+         }
+         
+     }
+    
+    func clearcoreData(){
+        // create an instance of app delegate
+               let appDelegate = UIApplication.shared.delegate as! AppDelegate
+               // second step is context
+               let managedContext = appDelegate.persistentContainer.viewContext
+               
+               let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ProductEntity")
+        fetchRequest.returnsObjectsAsFaults = false
+        do{
+            let results = try managedContext.fetch(fetchRequest)
+            for ob in results{
+                if let managedObjectData = ob as? NSManagedObject{
+                    managedContext.delete(managedObjectData)
+                }
+            }
+        }catch{
+            print(error)
+        }
+               
+    }
+     
     
     @IBAction func savebutton(_ sender: UIBarButtonItem) {
         
