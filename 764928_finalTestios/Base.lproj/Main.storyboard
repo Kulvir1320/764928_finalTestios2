@@ -90,6 +90,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="plus.rectangle.fill.on.rectangle.fill" catalog="system"/>
                             </button>
+                            <connections>
+                                <action selector="savebutton:" destination="qwJ-Th-Lid" id="FSb-vM-9rm"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>

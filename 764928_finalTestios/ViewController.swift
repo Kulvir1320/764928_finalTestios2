@@ -40,11 +40,9 @@ class ViewController: UIViewController {
         desTextView.text = "\(product1.description)"
         priceTextField.text = "\(product1.price)"
         nameTextField.text = "\(product1.name)"
-        NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: UIApplication.willResignActiveNotification, object: nil)
         
+         NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: UIApplication.willResignActiveNotification, object: nil)
     }
-
-    
     @objc func saveData() {
         let appdelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appdelegate.persistentContainer.viewContext
@@ -62,33 +60,12 @@ class ViewController: UIViewController {
             
         }
     }
+
     
-    func loadCoreData() {
-          products = [Product]()
-          // create an instance of app delegate
-          let appDelegate = UIApplication.shared.delegate as! AppDelegate
-          // second step is context
-          let managedContext = appDelegate.persistentContainer.viewContext
-          
-          let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "productEntity")
-          
-          do {
-              let results = try managedContext.fetch(fetchRequest)
-              if results is [NSManagedObject] {
-                  for result in results as! [NSManagedObject] {
-                      let name = result.value(forKey: "name") as! String
-                      let id = result.value(forKey: "id") as! Int
-                      let desc = result.value(forKey: "desc") as! String
-                      let price = result.value(forKey: "price") as! Int
-                      
-                    products?.append(Product(id: id, name: name, description: desc, price: Double(price)))
-                  }
-              }
-          } catch {
-              print(error)
-          }
-          
-      }
+    @IBAction func savebutton(_ sender: UIBarButtonItem) {
+        
+    }
+    
 
 }
 

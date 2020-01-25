@@ -30,6 +30,7 @@ class ProductTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        loadCoreData()
         
     }
 //    func updateSearchResults(for searchController: UISearchController) {
@@ -49,6 +50,7 @@ class ProductTableViewController: UITableViewController {
             return filterProducts.count
         }
         return Product.product.count ?? 0
+//        return productsData.count ?? 0
     }
 
    
@@ -60,7 +62,9 @@ class ProductTableViewController: UITableViewController {
         }else {
             pro = Product.product[indexPath.row]
         }
+        let p = productsData[indexPath.row]
         cell.textLabel?.text = Product.product[indexPath.row].name
+//        cell.textLabel?.text = p.name
         return cell
         
     }
@@ -112,13 +116,13 @@ class ProductTableViewController: UITableViewController {
     */
 
     func loadCoreData() {
-     var  productsData = [Product]()
+     
         // create an instance of app delegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // second step is context
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "productEntity")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ProductEntity")
         
         do {
             let results = try managedContext.fetch(fetchRequest)
@@ -137,4 +141,6 @@ class ProductTableViewController: UITableViewController {
         }
         
     }
+    
+    
 }
